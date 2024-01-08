@@ -12,7 +12,7 @@ class User
   public function register($data)
   {
 
-    $this->db->query('INSERT INTO users (prénom, nom, téléphone, email, motdepasse, roleuser, image) VALUES (?, ?, ?, ?, ?, ?, ?)');
+    $this->db->query('INSERT INTO users (prenom, nom, telephone, email, motdepasse, roleuser, image) VALUES (?, ?, ?, ?, ?, ?, ?)');
     $this->db->bind($data['name']);
     $this->db->bind($data['userlastname']);
     $this->db->bind($data['phoneNumber']);
@@ -33,7 +33,6 @@ class User
   public function login($email, $password)
   {
     $this->db->query("SELECT * FROM users WHERE email = '$email' ");
-
 
     $row = $this->db->single();
     $hashed_password = $row->motdepasse;
