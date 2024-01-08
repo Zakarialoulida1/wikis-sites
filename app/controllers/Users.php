@@ -198,7 +198,7 @@ class Users extends Controller
         $_SESSION['user_phone'] = $user->téléphone;
         $_SESSION['user_role'] = $user->roleuser;
         
-        redirect('projects/projects');
+        redirect('pages/index');
      
     }
 

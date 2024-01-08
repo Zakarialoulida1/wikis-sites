@@ -9,6 +9,6 @@
   // App Root
   define('APPROOT', dirname(dirname(__FILE__)));
   // URL Root
-  define('URLROOT', 'http://localhost/Wiki-site');
+  define('URLROOT', 'http://localhost/Wikis-sites');
   // Site Name
   define('SITENAME', 'wiki');
