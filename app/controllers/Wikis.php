@@ -28,6 +28,8 @@ class Wikis extends controller{
                 'titre_err' => '',
                 'description_err' => ''
             ];
+
+            
             if($this->wiki->add_wiki($data)){
                 redirect('wikis/formWiki');
             }
