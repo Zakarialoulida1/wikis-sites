@@ -190,12 +190,12 @@ class Users extends Controller
     public function createUserSession($user)
     {
       
-        $_SESSION['user_id'] = $user->Membre_ID;
+        $_SESSION['user_id'] = $user->user_id ;
         $_SESSION['user_email'] = $user->email;
-        $_SESSION['user_name'] = $user->prénom;
+        $_SESSION['user_name'] = $user->prenom;
         $_SESSION['user_image'] = $user->image;
         $_SESSION['user_lastname'] = $user->nom;
-        $_SESSION['user_phone'] = $user->téléphone;
+        $_SESSION['user_phone'] = $user->telephone;
         $_SESSION['user_role'] = $user->roleuser;
         
         redirect('pages/index');

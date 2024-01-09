@@ -108,7 +108,7 @@
 
         <!-- Container to display selected tags -->
         <div id="selected-tags" name="selected-tags"></div>
-        <input type="hidden" id="selected-tags-input" name="selected_tags" value="">
+        <input type="hidden" id="selected-tags-input" name="selected_tags" value="<?= htmlspecialchars(json_encode($data['selected_tags'])); ?>">
 
 
 
@@ -162,6 +162,7 @@
                 updateDisplayedTags();
             }
         }
+        
 
 
         // Event listener for the select element

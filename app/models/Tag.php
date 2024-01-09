@@ -12,4 +12,8 @@ class Tag
     $this->db->execute();
     return  $this->db->resultSet();
   }
+  public function add_wiki_tags($id){
+    
+  }
+
 }

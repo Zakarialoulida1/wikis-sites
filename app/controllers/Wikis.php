@@ -15,13 +15,11 @@ class Wikis extends controller{
         
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // var_dump($_POST);
-            // die();
+          
             $data = [
 
                 'wiki_picture' => trim($_POST['wiki_picture']),
                 'category_id'=>trim($_POST['categorie']),
-                'selected_tags'=>trim($_POST['selected_tags']),
                 'titre' => trim($_POST['titre']),
                 'description' => trim($_POST['message']),
                 'wiki_picture_err' => '',
@@ -29,8 +27,19 @@ class Wikis extends controller{
                 'description_err' => ''
             ];
 
+         
+          
+            $id_wiki=$this->wiki->add_wiki($data);
             
-            if($this->wiki->add_wiki($data)){
+            if($id_wiki){
+                
+                $selectedTagsString = $_POST['selected_tags'];
+
+                // Decode the JSON string to an array
+                $selectedTagsArray = json_decode($selectedTagsString, true);
+          
+                $this->tag->add_wiki_tags($id_wiki,$selectedTagsArray);
+                
                 redirect('wikis/formWiki');
             }
         }
@@ -38,6 +47,7 @@ class Wikis extends controller{
         $data = [
             'categories'=> $this->categorie->fetch_categories(),
             'tags'=>$this->tag->fetch_tags(),
+            'selected_tags'=>'',
             'wiki_picture' => '',
             'titre' => '',
             'description' => '',
