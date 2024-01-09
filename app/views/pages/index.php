@@ -45,108 +45,72 @@
     </div>
 </nav>
 
-<main id="wikis" class=" bg-gray-200 p-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-<div class="w-full max-w-md px-4 py-4 my-4 bg-white rounded-lg shadow-lg bg-gray-800">
-        <article class="flex flex-col shadow my-4">
-            <!-- Article Image -->
-            <a href="#" class="hover:opacity-75">
-                <img src="https://source.unsplash.com/collection/1346951/1000x500?sig=1">
-            </a>
-            <div class="bg-white flex flex-col justify-start p-6">
-                <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">Technology</a>
-                <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">Lorem Ipsum Dolor Sit Amet Dolor Sit Amet</a>
-                <p href="#" class="text-sm pb-3">
-                    By <a href="#" class="font-semibold hover:text-gray-800">David Grzyb</a>, Published on April 25th, 2020
-                </p>
-                <a href="#" class="pb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..</a>
-                <a href="#" class="uppercase text-gray-800 hover:text-black">Continue Reading <i class="fas fa-arrow-right"></i></a>
+<main id="wikis" class=" bg-gray-200 p-2 grid grid-cols-1 gap-5  ">
+
+    <?php foreach ($data['wikis'] as $wiki) : ?>
+        <section class="text-blueGray-700 bg-white mt-20">
+            <div class="container flex flex-col items-center px-5 py-16 mx-auto md:flex-row md:justify-around ">
+                <div class="w-full lg:w-1/3 lg:max-w-lg md:w-1/2">
+                    <img class="object-cover object-center rounded-lg " alt="hero" src="<?= URLROOT . '/img/' . $wiki->wiki_picture; ?>">
+                </div>
+                <div class="flex flex-col items-start mb-16 text-left  md:w-1/3  ">
+
+                    <h1 class="mb-8 text-2xl font-black tracking-tighter text-black md:text-5xl title-font"> <?php echo $wiki->title; ?> </h1>
+                    <p class="mb-8 text-base leading-relaxed text-left text-blueGray-600 max-h-[25vh] overflow-y-hidden "> <?php echo $wiki->content; ?> </p>
+                    <div class="flex flex-col justify-center lg:flex-row">
+                        <a href="<?= URLROOT . '/wikis/read_more/' . $wiki->wiki_id; ?>" class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"> Show me </a>
+                        <p class="mt-2 text-sm text-left text-blueGray-600 md:ml-6 md:mt-0"> It will take you to read more <br class="hidden lg:block">
+                            <a href="<?= URLROOT . '/wikis/read_more/' . $wiki->wiki_id; ?>" class="inline-flex items-center font-semibold text-blue-600 md:mb-2 lg:mb-0 hover:text-black " title="read more"> Read more about it » </a>
+                        </p>
+                     
+
+                    </div>
+                    <div class="flex w-full mt-16  justify-around ">
+                           <a href="<?= URLROOT . '/wikis/archiver_wiki/' . $wiki->wiki_id; ?>" class="p-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> ARCHIVER</i></a> 
+                            <a href="<?= URLROOT . '/wikis/update_wiki/' . $wiki->wiki_id; ?>" class="p-2 bg-green-400 rounded cursor-pointer "><i class="fa-regular fa-pen-to-square "> UPDATE</i></a>
+                        </div>
+                </div>
+
+
             </div>
-        </article>
-    </div>
-
-
-    <div class="w-full max-w-md px-4 py-4 my-4 bg-white rounded-lg shadow-lg bg-gray-800">
-        <article class="flex flex-col shadow my-4">
-            <!-- Article Image -->
-            <a href="#" class="hover:opacity-75">
-                <img src="https://source.unsplash.com/collection/1346951/1000x500?sig=1">
-            </a>
-            <div class="bg-white flex flex-col justify-start p-6">
-                <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">Technology</a>
-                <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">Lorem Ipsum Dolor Sit Amet Dolor Sit Amet</a>
-                <p href="#" class="text-sm pb-3">
-                    By <a href="#" class="font-semibold hover:text-gray-800">David Grzyb</a>, Published on April 25th, 2020
-                </p>
-                <a href="#" class="pb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..</a>
-                <a href="#" class="uppercase text-gray-800 hover:text-black">Continue Reading <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
-    </div>
+        </section>
+    <?php endforeach; ?>
 
 
 
-    <div class="w-full max-w-md px-4 py-4 my-4 bg-white rounded-lg shadow-lg bg-gray-800">
-        <article class="flex flex-col shadow my-4">
-            <!-- Article Image -->
-            <a href="#" class="hover:opacity-75">
-                <img src="https://source.unsplash.com/collection/1346951/1000x500?sig=1">
-            </a>
-            <div class="bg-white flex flex-col justify-start p-6">
-                <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">Technology</a>
-                <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">Lorem Ipsum Dolor Sit Amet Dolor Sit Amet</a>
-                <p href="#" class="text-sm pb-3">
-                    By <a href="#" class="font-semibold hover:text-gray-800">David Grzyb</a>, Published on April 25th, 2020
-                </p>
-                <a href="#" class="pb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..</a>
-                <a href="#" class="uppercase text-gray-800 hover:text-black">Continue Reading <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
-    </div>
 
 
-    <div class="w-full max-w-md px-4 py-4 my-4 bg-white rounded-lg shadow-lg bg-gray-800">
-        <article class="flex flex-col shadow my-4">
-            <!-- Article Image -->
-            <a href="#" class="hover:opacity-75">
-                <img src="https://source.unsplash.com/collection/1346951/1000x500?sig=1">
-            </a>
-            <div class="bg-white flex flex-col justify-start p-6">
-                <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">Technology</a>
-                <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">Lorem Ipsum Dolor Sit Amet Dolor Sit Amet</a>
-                <p href="#" class="text-sm pb-3">
-                    By <a href="#" class="font-semibold hover:text-gray-800">David Grzyb</a>, Published on April 25th, 2020
-                </p>
-                <a href="#" class="pb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..</a>
-                <a href="#" class="uppercase text-gray-800 hover:text-black">Continue Reading <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
-    </div>
+
+
+
+
+
 
     <div class="w-full h-fit  max-w-md px-4 py-4 my-4 bg-white rounded-lg shadow-lg bg-gray-800">
 
 
-    <!-- Create wiki Card -->
-                <div class="my-1 px-1 w-full h-full  ">
+        <!-- Create wiki Card -->
+        <div class="my-1 px-1 w-full h-full  ">
 
-                    <!-- Article -->
-                    <article class="overflow-hidden rounded-lg shadow-lg">
-                        <div class="group bg-gray-50  h-full  py-16 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md ">
-                            <a data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-gray-200 text-yellow-700 group-hover:text-gray-800 group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center" href="<?= URLROOT; ?>/wikis/formWiki">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                            </a>
-                            <a class="text-gray-600 group-hover:text-gray-800 group-hover:smooth-hover text-center" href="#"><button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button">
-                                    Create wiki </button> </a>
-                        </div>
-                    </article>
-                    <!-- END Article -->
-
+            <!-- Article -->
+            <article class="overflow-hidden rounded-lg shadow-lg">
+                <div class="group bg-gray-50   h-full  py-16 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md ">
+                    <a data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-gray-200 text-yellow-700 group-hover:text-gray-800 group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center" href="<?= URLROOT; ?>/wikis/formWiki">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </a>
+                    <a class="text-gray-600 group-hover:text-gray-800 group-hover:smooth-hover text-center" href="#"><button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button">
+                            Create wiki </button> </a>
                 </div>
-                <!-- END Column -->
+            </article>
+            <!-- END Article -->
 
         </div>
-  
+        <!-- END Column -->
+
+    </div>
+
 
 
 

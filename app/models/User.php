@@ -57,4 +57,19 @@ class User
       return false;
     }
   }
+  public function findUserByid($user_id)
+  {
+   
+    $this->db->query("SELECT * FROM users WHERE user_id = :user_id ");
+    $this->db->bind(':user_id', $user_id);
+
+    $row = $this->db->single();
+
+    // Check row
+    if ($this->db->rowCount() > 0) {
+      return $row;
+    } else {
+      return false;
+    }
+  }
 }

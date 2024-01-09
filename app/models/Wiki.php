@@ -27,5 +27,36 @@ public function add_wiki($data){
         return false;
     }
 }
+public function get_wikis(){
+    try {
+        $this->db->query(" SELECT * FROM wikis WHERE   archiver =:archiver");
+        $this->db->bind(':archiver', 1 );
+        $this->db->execute();
+        return  $this->db->resultSet();
+    } catch (PDOException $e) {
+        return $e->getMessage();
+    }
+      
+}
+
+public function get_this_wikis($id_wiki){
+ 
+    $this->db->query(" SELECT * FROM wikis WHERE wiki_id=:wiki_id");
+    $this->db->bind(':wiki_id', $id_wiki );
+    $this->db->execute();
+    return  $this->db->single();
+  
+}
+public function archiver_wiki($id_wiki){
+    try {
+        $this->db->query("UPDATE wikis   SET archiver = 0   where wiki_id= :wiki_id");
+        $this->db->bind(':wiki_id', $id_wiki );
+        $this->db->execute();
+       
+    } catch (PDOException $e) {
+        return $e->getMessage();
+    }
+}
+
 
 }
