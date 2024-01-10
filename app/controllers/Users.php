@@ -197,8 +197,11 @@ class Users extends Controller
         $_SESSION['user_lastname'] = $user->nom;
         $_SESSION['user_phone'] = $user->telephone;
         $_SESSION['user_role'] = $user->roleuser;
-        
+        if($_SESSION['user_role']== 'user'){
         redirect('pages/index');
+        }elseif($_SESSION['user_role']== 'admin'){
+            redirect('categories/index');   
+        }
      
     }
 

@@ -24,10 +24,10 @@
 
         <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
         <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
-            <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
+        <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
                 <a href="<?= URLROOT; ?>/pages/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Home</a>
-                <a href="#" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">About</a>
-                <a href="#" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Contact</a>
+                <a href="<?= URLROOT; ?>/categories/tags" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">TAGS</a>
+                <a href="<?= URLROOT; ?>/categories/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Categorys</a>
                 <a id="create_wiki" href="<?= URLROOT; ?>/wikis/formWiki" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Create a wiki</a>
             </div>
 
@@ -62,13 +62,13 @@
                         <p class="mt-2 text-sm text-left text-blueGray-600 md:ml-6 md:mt-0"> It will take you to read more <br class="hidden lg:block">
                             <a href="<?= URLROOT . '/wikis/read_more/' . $wiki->wiki_id; ?>" class="inline-flex items-center font-semibold text-blue-600 md:mb-2 lg:mb-0 hover:text-black " title="read more"> Read more about it » </a>
                         </p>
-                     
+
 
                     </div>
                     <div class="flex w-full mt-16  justify-around ">
-                           <a href="<?= URLROOT . '/wikis/archiver_wiki/' . $wiki->wiki_id; ?>" class="p-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> ARCHIVER</i></a> 
-                            <a href="<?= URLROOT . '/wikis/update_wiki/' . $wiki->wiki_id; ?>" class="p-2 bg-green-400 rounded cursor-pointer "><i class="fa-regular fa-pen-to-square "> UPDATE</i></a>
-                        </div>
+                        <a href="<?= URLROOT . '/wikis/archiver_wiki/' . $wiki->wiki_id; ?>" class="p-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> ARCHIVER</i></a>
+                        <a href="<?= URLROOT . '/wikis/update_wiki/' . $wiki->wiki_id; ?>" class="p-2 bg-green-400 rounded cursor-pointer "><i class="fa-regular fa-pen-to-square "> UPDATE</i></a>
+                    </div>
                 </div>
 
 
@@ -120,11 +120,7 @@
 
 <script>
     $(document).ready(function() {
-        // $("#formWiki").hide();
-        // $("#create_wiki").on('click', function() {
-        //     $("#formWiki").show();
-        //     $("#wikis").hide();
-        // });
+   
     });
 </script>
 <?php require APPROOT . '/views/inc/footer.php'; ?>

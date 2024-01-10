@@ -24,10 +24,10 @@
 
         <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
         <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
-            <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
+        <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
                 <a href="<?= URLROOT; ?>/pages/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Home</a>
-                <a href="#" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">About</a>
-                <a href="#" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Contact</a>
+                <a href="<?= URLROOT; ?>/categories/tags" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">TAGS</a>
+                <a href="<?= URLROOT; ?>/categories/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Categorys</a>
                 <a id="create_wiki" href="<?= URLROOT; ?>/wikis/formWiki" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Create a wiki</a>
             </div>
 
@@ -50,12 +50,13 @@ $wiki=$data['wiki'];
 $user=$data['user'];
 $category=$data['category'];
 $tags=$data['tags'];
-// var_dump($user);
-// die();
+
+
 ?>
  <!-- Container for demo purpose -->
 <div class="container my-24 mx-auto md:px-6">
   <!-- Section: Design Block -->
+  
   <section class="mb-32">
     <img src="<?= URLROOT .'/img/'.$wiki->wiki_picture?>"
       class="mb-6 w-[50vw] mx-auto h-[35vh] rounded-lg shadow-lg " alt="image" />
@@ -65,13 +66,15 @@ $tags=$data['tags'];
         loading="lazy" />
       <div>
         <span> Published <u><?= $wiki->created_at ?></u> by </span>
-        <a href="#!" class="font-medium"><?= $user->nom .$user->prenom ;?></a>
+        <a href="#!" class="font-medium"><?= $user->nom.' ' .$user->prenom ;?></a>
       </div>
+      <u class='bg-blue-600 text-white p-1 rounded-md m-1'><?php echo $category ? $category->name : "general"; ?> </u>
     </div>
 
     <h1 class="mb-6 text-3xl font-bold">
    <?=$wiki->title ;?>
     </h1>
+
 
     <p>
    <?= $wiki->content ;?>
