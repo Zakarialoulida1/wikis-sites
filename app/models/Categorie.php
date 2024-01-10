@@ -38,7 +38,7 @@ public function addCategorie($data){
 
 
 public function getCategorieId($id){
-  $this->db->query('SELECT * FROM wiki.categories WHERE CategoryID = :categoryID');
+  $this->db->query('SELECT * FROM categories WHERE Category_ID = :categoryID');
   $this->db->bind(':categoryID',$id);
 
   return $this->db->single();

@@ -66,14 +66,14 @@ class Categories extends Controller
         }
 
     }
-    public function edit()
+    public function update($id)
     {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
             $data = [
-                'CategoryID' => $_POST['categoryId'],
+                'CategoryID' => $id,
                 'categorie_name' => trim($_POST['categoryName']),
                 'categorie_name_error' => ''
             ];
@@ -95,27 +95,30 @@ class Categories extends Controller
                     die('Something went wrong');
                 }
             } else {
-                var_dump($data);
-                die();
-                // Load view with errors
-                $this->view('categories/index', $data);
+              
+            //  var_dump($data);
+            //  die();   
+                $this->view('categories/updatecategorie', $data);
             }
 
         } else {
             // Get existing category from model
-            $id =$_POST['categoryId'];
+            
             $category = $this->categoriesmodel->getCategorieId($id);
             // Check for owner
+            // var_dump($category);
+            // die();
           
             $data = [
                 'CategoryID' =>$id,
-                'categorie_name' => $category->CategoryName
+                'categorie_name' => $category->name,
+                'categorie_name_error'=>''
             ];
 
             // Pass additional parameter for modal
-            $data['modal'] = true;
+            // $data['modal'] = true;
 
-            $this->view('categories/index', $data);
+            $this->view('categories/updatecategorie', $data);
         }
     }
     public function delete($id)

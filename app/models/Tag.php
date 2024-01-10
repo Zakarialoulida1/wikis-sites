@@ -34,5 +34,12 @@ public function get_tags_wiki($id_wiki){
       return $this->db->resultSet();
 }
 
+public function addTag($data){
+  $this->db->query( "INSERT INTO tags (name) VALUES (:name)");
+      $this->db->bind(':name',$data['tag_name']);
+    
+      return   $this->db->execute();
+}
+
 
 }

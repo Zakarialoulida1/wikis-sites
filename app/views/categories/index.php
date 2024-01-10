@@ -26,7 +26,7 @@
         <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" class="absolute bg-white md:bg-transparent inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out   md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
             <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
                 <a href="<?= URLROOT; ?>/pages/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Home</a>
-                <a href="<?= URLROOT; ?>/categories/tags" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">TAGS</a>
+                <a href="<?= URLROOT; ?>/tags/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">TAGS</a>
                 <a href="<?= URLROOT; ?>/categories/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Categorys</a>
                 <a id="create_wiki" href="<?= URLROOT; ?>/wikis/formWiki" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Create a wiki</a>
             </div>
@@ -41,7 +41,7 @@
         <h1 class="text-xl md:text-2xl font-bold">Categories</h1>
        <div>
         <a  onclick="openAddCategoryModal()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">+Add Category</a>
-        <a  onclick="openAddtagModal()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">+Add Tag</a>
+        
        </div>
     </div>
 
@@ -53,8 +53,8 @@
                 <div class="flex space-x-4">
                     <a href="<?php echo URLROOT; ?>/categories/delete/<?php echo $category->category_id; ?>"
                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</a>
-                    <button onclick="openUpdateCategoryModal('<?php echo $category->category_id; ?>', '<?php echo $category->name; ?>')"
-                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update</button>
+                    <a href="<?php echo URLROOT .'/categories/update/' . $category->category_id; ?>"
+                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update</a>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -102,23 +102,7 @@
     </div>
 </div>
 
-    <div id="updateCategoryModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div class="bg-white p-8 rounded-md shadow-md">
-            <h2 class="text-2xl font-bold mb-4">Update Category</h2>
-            <form action="<?php echo URLROOT; ?>/categories/edit" method="post">
-                <input type="hidden" id="updateCategoryId" name="categoryId" value="">
-                <div class="mb-4">
-                    <label for="updateCategoryName" class="block text-gray-700 font-semibold mb-2">Category Name</label>
-                    <input type="text" id="updateCategoryName" name="categoryName" class="w-full p-2 border border-gray-300 rounded-md">
-                </div>
 
-                <div class="flex justify-end">
-                    <button type="button" onclick="closeUpdateCategoryModal()" class="text-gray-500 hover:text-gray-700 mr-4">Cancel</button>
-                    <button type="submit" name="Submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update Category</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
 
 <script>
