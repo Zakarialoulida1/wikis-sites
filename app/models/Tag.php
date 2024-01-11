@@ -40,6 +40,44 @@ public function addTag($data){
     
       return   $this->db->execute();
 }
+public function delete_tag($id){
+ 
+  try {
+    $this->db->query('DELETE FROM tags WHERE tag_id = :tag_id');
+    $this->db->bind(':tag_id',$id);
+    //Execute
+    return $this->db->execute();
+} catch (PDOException $e) {
+    return $e->getMessage();
+}
+}
+public function gettag($id){
+  try{
+    $this->db->query('SELECT * FROM tags WHERE tag_id = :tag_id');
+    $this->db->bind(':tag_id',$id);
+  
+    return $this->db->single();
+  }catch(PDOException $e){
+    echo $e->getMessage();
+  }
+}
+public function updateTag($data){
+  
+  try{
+    $this->db->query('UPDATE  tags SET name =:tag_name  WHERE tag_id=:tag_id');
+    // var_dump($data);
+    // die();
+    //Bind value
+    $this->db->bind(':tag_id',$data['tag_id']);
+    $this->db->bind(':tag_name',$data['tag_name']);
+  
+  
+    //Execute
+    return $this->db->execute();
+  }catch(PDOException $e){
+    echo $e->getMessage();
+  }
+}
 
 
 }
