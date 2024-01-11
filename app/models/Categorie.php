@@ -45,7 +45,7 @@ public function getCategorieId($id){
 }
 
 public function updateCategorie($data){
-  $this->db->query('UPDATE  categories SET name = :category_name  WHERE Category_id = :categoryID');
+  $this->db->query('UPDATE  categories SET name = :category_name, date_categorie = CURRENT_TIMESTAMP  WHERE Category_id = :categoryID');
   //Bind value
   $this->db->bind(':categoryID',$data['CategoryID']);
   $this->db->bind(':category_name',$data['categorie_name']);

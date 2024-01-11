@@ -23,12 +23,15 @@
 
         <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
         <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
-        <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
+            <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
                 <a href="<?= URLROOT; ?>/pages/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Home</a>
-                <a href="<?= URLROOT; ?>/categories/tags" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">TAGS</a>
-                <a href="<?= URLROOT; ?>/categories/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Categorys</a>
+                <?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'admin') : ?>
+                    <a href="<?= URLROOT; ?>/tags/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">TAGS</a>
+                    <a href="<?= URLROOT; ?>/categories/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Categorys</a>
+                <?php endif ?> 
                 <a id="create_wiki" href="<?= URLROOT; ?>/wikis/formWiki" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Create a wiki</a>
             </div>
+
 
 
         </div>
@@ -54,7 +57,7 @@
                         <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
                         </svg>
-                      
+
                         <input type="file" name="wiki_picture" class="<?php echo (!empty($data['wiki_picture_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['wiki_picture']; ?>">
                         <span class="invalid-feedback text-red-500"><?php echo $data['wiki_picture_err']; ?></span>
                         <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF</p>
@@ -70,8 +73,8 @@
             </label>
             <div class="relative">
                 <select name="categorie" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required id="grid-state">
-                    <option value="">Sélectionnez une catégorie</option> 
-                    <?php foreach ($data['categories'] as $categorie) : ?>    
+                    <option value="">Sélectionnez une catégorie</option>
+                    <?php foreach ($data['categories'] as $categorie) : ?>
                         <option value="<?= $categorie->category_id; ?>"><?= $categorie->name; ?> </option>
                     <?php endforeach; ?>
                 </select>
@@ -91,8 +94,8 @@
             </label>
             <div class="relative">
                 <select name="tagname" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state-tags">
-                <option value="">Sélectionnez un tag</option>   
-                <?php foreach ($data['tags'] as $tag) : ?>
+                    <option value="">Sélectionnez un tag</option>
+                    <?php foreach ($data['tags'] as $tag) : ?>
                         <option value="<?= $tag->tag_id; ?>"><?= $tag->name; ?> </option>
                     <?php endforeach; ?>
                 </select>
@@ -104,18 +107,13 @@
             </div>
         </div>
 
-        <!-- Container to display selected tags -->
-        <!-- <div id="selected-tags" name="selected-tags"></div>
-        <input type="hidden" id="selected-tags-input" name="selected_tags" value="<?= htmlspecialchars(json_encode($data['selected_tags'])); ?>">
- -->
 
-<!-- Ajoutez ces lignes à votre formulaire -->
-<input type="hidden" id="selected-tag-id" name="selected_tag_id" value="">
-<div id="selected-tag-names"></div>
+        <input type="hidden" id="selected-tag-id" name="selected_tag_id" value="">
+        <div id="selected-tag-names"></div>
 
 
         <div>
-            <label  class="text-sm">Titre</label>
+            <label class="text-sm">Titre</label>
             <input type="titre" name="titre" class="w-full p-3 border rounded border-black dark:bg-gray-800">
         </div>
         <div>
@@ -128,60 +126,63 @@
 
 
 <script>
-   document.addEventListener("DOMContentLoaded", function() {
-    var selectedTagIds = [];
+    document.addEventListener("DOMContentLoaded", function() {
+        var selectedTagIds = [];
 
-    function updateDisplayedTags() {
-        var tagsContainer = document.getElementById("selected-tag-names");
-        var selectedTagIdInput = document.getElementById("selected-tag-id");
-        tagsContainer.innerHTML = "";
+        function updateDisplayedTags() {
+            var tagsContainer = document.getElementById("selected-tag-names");
+            var selectedTagIdInput = document.getElementById("selected-tag-id");
 
-        selectedTagIds.forEach(function(tagId) {
-            var tagName = getTagNameById(tagId); // Fonction pour récupérer le nom du tag
-            var tag = document.createElement("span");
-            tag.className = "selected-tag";
-            tag.innerHTML = "<span class='bg-blue-500 text-white p-1 rounded-md m-1'>" + tagName + "</span><button class='text-red-500' data-tag-id=\"" + tagId + "\">Remove</button>";
-            tagsContainer.appendChild(tag);
+            tagsContainer.innerHTML = "";
 
-            // Attach the click event to the Remove button
-            var removeButton = tag.querySelector("button");
-            removeButton.addEventListener("click", removeTag);
-        });
+            selectedTagIds.forEach(function(tagId) {
+                var tagName = getTagNameById(tagId); // Fonction pour récupérer le nom du tag
+                var tag = document.createElement("span");
+                tag.className = "selected-tag";
+                tag.innerHTML = "<span class='bg-blue-500 text-white p-1 rounded-md m-1'>" + tagName + "</span><button class='text-red-500' data-tag-id=\"" + tagId + "\">Remove</button>";
+                tagsContainer.appendChild(tag);
 
-        selectedTagIdInput.value = JSON.stringify(selectedTagIds);
-    }
+                // Attach the click event to the Remove button
+                var removeButton = tag.querySelector("button");
+                removeButton.addEventListener("click", removeTag);
+            });
 
-    function getTagNameById(tagId) {
-        // Fonction pour récupérer le nom du tag à partir du tableau de données des tags
-        var tag = <?php echo json_encode($data['tags']); ?>;
-        for (var i = 0; i < tag.length; i++) {
-            if (tag[i].tag_id == tagId) {
-                return tag[i].name;
+            selectedTagIdInput.value = JSON.stringify(selectedTagIds);
+            console.log(selectedTagIdInput.value);
+        }
+
+
+        function getTagNameById(tagId) {
+            // Fonction pour récupérer le nom du tag à partir du tableau de données des tags
+            var tag = <?php echo json_encode($data['tags']); ?>;
+            console.log(tag);
+            for (var i = 0; i < tag.length; i++) {
+                if (tag[i].tag_id == tagId) {
+                    return tag[i].name;
+                }
+            }
+            return "";
+        }
+
+        function removeTag(event) {
+            var tagId = event.target.dataset.tagId;
+            var index = selectedTagIds.indexOf(tagId);
+            if (index !== -1) {
+                selectedTagIds.splice(index, 1);
+                updateDisplayedTags();
             }
         }
-        return "";
-    }
 
-    function removeTag(event) {
-        var tagId = event.target.dataset.tagId;
-        var index = selectedTagIds.indexOf(tagId);
-        if (index !== -1) {
-            selectedTagIds.splice(index, 1);
-            updateDisplayedTags();
-        }
-    }
-
-    // Event listener for the select element
-    var selectElement = document.getElementById("grid-state-tags");
-    selectElement.addEventListener("change", function() {
-        var selectedTagId = selectElement.value;
-        if (selectedTagId && !selectedTagIds.includes(selectedTagId)) {
-            selectedTagIds.push(selectedTagId);
-            updateDisplayedTags();
-        }
+        // Event listener for the select element
+        var selectElement = document.getElementById("grid-state-tags");
+        selectElement.addEventListener("change", function() {
+            var selectedTagId = selectElement.value;
+            if (selectedTagId && !selectedTagIds.includes(selectedTagId)) {
+                selectedTagIds.push(selectedTagId);
+                updateDisplayedTags();
+            }
+        });
     });
-});
-
 </script>
 
 <?php require APPROOT . '/views/inc/footer.php'; ?>

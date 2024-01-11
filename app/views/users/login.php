@@ -1,7 +1,11 @@
 <?php require APPROOT . '/views/inc/header.php' ?>
 <header class="flex bg-white shadow justify-between items-center px-4">
-    <img class="lg:h-[7vh] h-12 inline-block m-2" src="<?php echo URLROOT; ?>/img/logo.png" alt="Workflow">
     <div>
+    <img class="lg:h-[7vh] h-12 inline-block m-2" src="<?php echo URLROOT; ?>/img/logo.png" alt="Workflow">
+    <a href="<?= URLROOT; ?>/pages/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Home</a>
+    </div>
+    <div>
+
     <a href="<?php echo URLROOT;?>/users/login" class="p-[8px] w-fit h-fit text-center text-[#1062d4] text-md font-medium bg-white rounded-full">Login</a>
     <a href="<?php echo URLROOT;?>/users/register" class="p-[8px] w-fit h-fit text-center text-white text-md font-medium  bg-[#1062d4] rounded hover:bg-white hover:text-black">SignUp</a>
   </div>

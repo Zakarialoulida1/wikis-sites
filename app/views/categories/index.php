@@ -30,8 +30,8 @@
                 <a href="<?= URLROOT; ?>/categories/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Categorys</a>
                 <a id="create_wiki" href="<?= URLROOT; ?>/wikis/formWiki" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Create a wiki</a>
             </div>
+          
 
-      
 
         </div>
     </div>
@@ -39,22 +39,21 @@
 <div class="p-8 ">
     <div class="flex justify-between items-center  my-8">
         <h1 class="text-xl md:text-2xl font-bold">Categories</h1>
-       <div>
-        <a  onclick="openAddCategoryModal()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">+Add Category</a>
-        
-       </div>
+        <div>
+            <a onclick="openAddCategoryModal()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">+Add Category</a>
+
+        </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-        <?php foreach ($data['categories'] as $category) :?>
+        <?php foreach ($data['categories'] as $category) : ?>
             <div class="bg-white rounded-lg shadow-md p-4">
                 <h2 class="text-xl font-bold mb-2"><?php echo $category->name; ?></h2>
 
-                <div class="flex space-x-4">
-                    <a href="<?php echo URLROOT; ?>/categories/delete/<?php echo $category->category_id; ?>"
-                       class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</a>
-                    <a href="<?php echo URLROOT .'/categories/update/' . $category->category_id; ?>"
-                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update</a>
+                <div class="flex space-x-2">
+                    <span class="bg-green-400 text-white p-2 rounded hover:bg-green-500"><?php echo $category->date_categorie; ?></span>
+                    <a href="<?php echo URLROOT; ?>/categories/delete/<?php echo $category->category_id; ?>" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">Delete</a>
+                    <a href="<?php echo URLROOT . '/categories/update/' . $category->category_id; ?>" class="bg-blue-500  text-white p-2 rounded hover:bg-blue-600">Update</a>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -109,23 +108,26 @@
     function openAddCategoryModal() {
         document.getElementById('addCategoryModal').classList.remove('hidden');
     }
-    function openAddtagModal(){
-        document.getElementById('addTagModal').classList.remove('hidden'); 
+
+    function openAddtagModal() {
+        document.getElementById('addTagModal').classList.remove('hidden');
     }
 
     function closeAddCategoryModal() {
         document.getElementById('addCategoryModal').classList.add('hidden');
     }
+
     function closeaddTagModal() {
         document.getElementById('addTagModal').classList.add('hidden');
     }
-    
-    
+
+
     function openUpdateCategoryModal(categoryId, categoryName) {
         document.getElementById('updateCategoryId').value = categoryId;
         document.getElementById('updateCategoryName').value = categoryName;
         document.getElementById('updateCategoryModal').classList.remove('hidden');
     }
+
     function openUpdateTagModal(categoryId, categoryName) {
         document.getElementById('updateCategoryId').value = categoryId;
         document.getElementById('updateCategoryName').value = categoryName;
