@@ -44,7 +44,7 @@ class Wikis extends controller{
           
                 $this->tags->add_wiki_tags($id_wiki,$selectedTagsArray);
                 
-                redirect('wikis/formWiki');
+                redirect('pages/index');
             }
         }
         else{
@@ -88,25 +88,31 @@ class Wikis extends controller{
       }
       public function update_wiki($id_wiki){
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            var_dump($_POST);
-          die();
-
+          
+          
+            if( $this->wikis->update_wiki($id_wiki,$_POST)) {
+             
+          if( $this->tags->delete_tags($id_wiki)){
+           $selectedTagsString = $_POST['selected_tag_id'];
+           $selectedTagsArray = json_decode($selectedTagsString, true);
+           $this->tags->add_wiki_tags($id_wiki,$selectedTagsArray);
+           redirect('pages/index');
+          }}
         }else{
         $wiki=$this->wikis->get_this_wikis($id_wiki);
         $user=$this->user->findUserByid($wiki->user_id);
         $category=$this->category->get__this_category($wiki->category_id);
         $tags=$this->tags-> get_tags_wiki($id_wiki);
-       
+        
         $data=[
           'wiki'=>$wiki,
           'user'=>$user,
-          'category'=>$category,
+          'mycategory'=>$category,
           'mytags'=>$tags,
           'categories'=>$this->category->fetch_categories(),
           'tags'=>$this->tags->fetch_tags(),
         ];
-        //  var_dump($data['wiki']);
-        //  die();
+      // var_dump($category);die();
         $this->view('pages/update_wiki',$data);
       }}
 

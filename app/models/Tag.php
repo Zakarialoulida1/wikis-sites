@@ -78,6 +78,21 @@ public function updateTag($data){
     echo $e->getMessage();
   }
 }
+public function delete_tags($id_wiki){
+  try{
+    $this->db->query('DELETE  FROM wiki_tags WHERE wiki_id  = :wiki_id');
+    $this->db->bind(':wiki_id',$id_wiki);
+   if( $this->db->execute()){
+    return true;
+   }else{
+    return false;
+   }
+  
+  }catch(PDOException $e){
+    echo $e->getMessage();
+  }
+
+}
 
 
 }

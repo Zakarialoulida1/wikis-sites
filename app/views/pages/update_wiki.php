@@ -23,7 +23,7 @@
 
         <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
         <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
-        <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
+            <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
                 <a href="<?= URLROOT; ?>/pages/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Home</a>
                 <a href="<?= URLROOT; ?>/admin/tags" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">TAGS</a>
                 <a href="<?= URLROOT; ?>/admin/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Categorys</a>
@@ -51,7 +51,7 @@
                 <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Product Photo</label>
                 <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                     <div class="text-center">
-                        
+
                         <input type="file" name="wiki_picture" value="">
                         <?php echo $data['wiki']->wiki_picture; ?>
                         <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF</p>
@@ -66,9 +66,11 @@
             </label>
             <div class="relative">
                 <select name="categorie" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required id="grid-state">
-                    <option value="" selected>Sélectionnez de nouveau une catégorie</option>
+                    <option value="">Sélectionnez de nouveau une catégorie</option>
+
+
                     <?php foreach ($data['categories'] as $categorie) : ?>
-                        <option value="<?= $categorie->category_id; ?>" <?php echo ($categorie->category_id == $data['category']->category_id) ?  : ''; ?>>
+                        <option value="<?= $categorie->category_id; ?>" <?php echo ($categorie->category_id == $data['mycategory']->category_id) ? 'selected'  : ''; ?>>
                             <?= $categorie->name; ?>
                         </option>
                     <?php endforeach; ?>
@@ -102,9 +104,9 @@
             </label>
             <div class="relative">
                 <select name="tagname" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state-tags">
-                    <option value=""selected>Sélectionnez de nouveaux des tag</option>
+                    <option value="" selected>Sélectionnez de nouveaux des tag</option>
                     <?php foreach ($data['tags'] as $tag) : ?>
-                        <option value="<?= $tag->tag_id; ?>" >
+                        <option value="<?= $tag->tag_id; ?>">
                             <?= $tag->name; ?>
                         </option>
                     <?php endforeach; ?>
@@ -136,15 +138,22 @@
 <script>
     /************************* */
 
-
     //************************************* */
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function(event) {
         var selectedTagIds = [];
+
+        <?php
+
+        foreach ($data['mytags'] as $tag) { ?>
+            selectedTagIds.push(JSON.stringify(<?php echo ($tag->tag_id); ?>))
+            updateDisplayedTags()
+        <?php  } ?>
 
 
 
         function updateDisplayedTags() {
+            event.preventDefault();
             var tagsContainer = document.getElementById("selected-tag-names");
             var selectedTagIdInput = document.getElementById("selected-tag-id");
             tagsContainer.innerHTML = "";
@@ -153,8 +162,10 @@
                 var tagName = getTagNameById(tagId); // Fonction pour récupérer le nom du tag
                 var tag = document.createElement("span");
                 tag.className = "selected-tag";
-                tag.innerHTML = "<span class='bg-blue-500 text-white p-1 rounded-md m-1'>" + tagName + "</span><button class='text-red-500' data-tag-id=\"" + tagId + "\">Remove</button>";
+                tag.innerHTML = "<span class='bg-blue-500 text-white p-1 rounded-md m-1'>" + tagName + "</span><button  type='button' class='text-red-500' data-tag-id=\"" + tagId + "\">Remove</button>";
+
                 tagsContainer.appendChild(tag);
+
 
                 // Attach the click event to the Remove button
                 var removeButton = tag.querySelector("button");
@@ -162,8 +173,15 @@
             });
 
             selectedTagIdInput.value = JSON.stringify(selectedTagIds);
+            console.log(selectedTagIdInput.value);
         }
 
+
+        /************************* */
+
+
+
+        /************** */
         function getTagNameById(tagId) {
             // Fonction pour récupérer le nom du tag à partir du tableau de données des tags
             var tag = <?php echo json_encode($data['tags']); ?>;
@@ -174,6 +192,9 @@
             }
             return "";
         }
+
+
+
 
         function removeTag(event) {
             var tagId = event.target.dataset.tagId;
@@ -193,6 +214,8 @@
                 updateDisplayedTags();
             }
         });
+
+
     });
 </script>
 

@@ -76,5 +76,23 @@ public function found_wiki($input){
     }
 
 }
+public function update_wiki($id_wiki,$data){
+    try {
+        
+        $this->db->query('UPDATE wikis SET wiki_picture = :wiki_picture, title = :title, content = :content, category_id = :category_id WHERE wiki_id = :wiki_id');
+        $this->db->bind(':wiki_picture', $data['wiki_picture']);
+        $this->db->bind(':title', $data['titre']);
+        $this->db->bind(':content', $data['message']);
+        $this->db->bind(':category_id', $data['categorie']);
+        $this->db->bind(':wiki_id', $id_wiki); // Assuming $data['wiki_id'] contains the ID of the wiki you want to update
+        
+        // Execute
+        $this->db->execute();
+        return true;
+        
+    } catch (PDOException $e) {
+        return $e->getMessage();
+    }
+}
 
 }
