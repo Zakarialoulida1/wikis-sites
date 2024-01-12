@@ -27,10 +27,12 @@
             <div class="flex flex-col px-2 -mx-4 md:flex-row md:mx-10 md:py-0">
                 <a href="<?= URLROOT; ?>/pages/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Home</a>
                 <?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'admin') : ?>
+                    <a id="create_wiki" href="<?= URLROOT; ?>/wikis/stats" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Stats</a>
                     <a href="<?= URLROOT; ?>/tags/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">TAGS</a>
                     <a href="<?= URLROOT; ?>/categories/index" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Categorys</a>
                 <?php endif ?>
                 <a id="create_wiki" href="<?= URLROOT; ?>/wikis/formWiki" class="px-2.5 py-2 text-gray-700 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 md:mx-2">Create a wiki</a>
+
             </div>
 
 
@@ -58,76 +60,80 @@
         </div>
 </nav>
 
-<main id="wikis" class=" bg-gray-200 p-2 grid grid-cols-1 gap-5  ">
-
-    <?php foreach ($data['wikis'] as $wiki) : ?>
-        <section class="text-blueGray-700 bg-white ">
-            <div class="container flex flex-col items-center px-5 py-16 mx-auto md:flex-row md:justify-around ">
-                <div class="w-full lg:w-1/3 lg:max-w-lg md:w-1/2">
-                    <img class="object-cover object-center rounded-lg " alt="hero" src="<?= URLROOT . '/img/' . $wiki->wiki_picture; ?>">
-                </div>
-                <div class="flex flex-col items-start mb-16 text-left  md:w-1/3  ">
-
-                    <h1 class="mb-8 text-2xl font-black tracking-tighter text-black md:text-5xl title-font"> <?php echo $wiki->title; ?> </h1>
-                    <p class="mb-8 text-base leading-relaxed text-left text-blueGray-600 max-h-[25vh] overflow-y-hidden "> <?php echo $wiki->content; ?> </p>
-                    <div class="flex flex-col justify-center lg:flex-row">
-                        <a href="<?= URLROOT . '/wikis/read_more/' . $wiki->wiki_id; ?>" class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"> Show me </a>
-                        <p class="mt-2 text-sm text-left text-blueGray-600 md:ml-6 md:mt-0"> It will take you to read more <br class="hidden lg:block">
-                            <a href="<?= URLROOT . '/wikis/read_more/' . $wiki->wiki_id; ?>" class="inline-flex items-center font-semibold text-blue-600 md:mb-2 lg:mb-0 hover:text-black " title="read more"> Read more about it » </a>
-                        </p>
 
 
-                    </div>
-                    <div class="flex w-full mt-16  justify-around ">
-                        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') : ?>
-                            <a href="<?= URLROOT . '/wikis/archiver_wiki/' . $wiki->wiki_id; ?>" class="p-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> ARCHIVER</i></a>
+
+<div id="wikis" class="bg-gray-200 font-[sans-serif] p-4">
+    <div class="max-w-6xl max-md:max-w-lg mx-auto">
+        <div>
+            <h2 class="text-3xl font-extrabold text-[#333] inline-block">LATEST BLOGS</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+
+            <?php foreach ($data['wikis'] as $wiki) : ?>
+
+                <div class="flex max-lg:flex-col bg-white  cursor-pointer rounded-md overflow-hidden shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] hover:scale-105 transition-all duration-300">
+                    <img src="<?= URLROOT . '/img/' . $wiki->wiki_picture; ?>" alt="Blog Post 2" class="lg:w-1/3 min-h-[250px] h-full object-cover" />
+                    <div class="p-6 lg:w-3/5">
+                        <h3 class="text-xl font-bold text-[#333]"><?php echo $wiki->title; ?></h3>
+                        <span class="text-sm block text-gray-400 mt-2"><?php echo $wiki->created_at . '| by ' . $wiki->nom . ' ' . $wiki->prenom; ?> </span>
+                        <p class="text-sm max-h-[15vh] overflow-y-hidden mt-4"><?php echo $wiki->content; ?></p>
+                        <a href="<?= URLROOT . '/wikis/read_more/' . $wiki->wiki_id; ?>" class="mt-4 inline-block text-blue-600 text-sm hover:underline">Read More</a>
+                        <?php if (!empty($wiki->tag_names)) : ?>
+                            <div class="flex  flex-wrap gap-2 mt-4">
+                                <?php
+                                $tags = explode(",", $wiki->tag_names);
+                                foreach ($tags as $tag) : ?>
+                                    <span class="bg-gray-300 p-2 rounded"><?= $tag; ?></span>
+                                <?php endforeach; ?>
+                            </div>
                         <?php endif; ?>
 
-                        <?php if (isset($_SESSION['user_id']) && isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin' && $wiki->user_id == $_SESSION['user_id']) : ?>
-                            <a href="<?= URLROOT . '/wikis/delete_wiki/' . $wiki->wiki_id; ?>" class="p-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> DELETE</i></a>
-                            <a href="<?= URLROOT . '/wikis/update_wiki/' . $wiki->wiki_id; ?>" class="p-2 bg-green-400 rounded cursor-pointer "><i class="fa-regular fa-pen-to-square "> UPDATE</i></a>
-                        <?php endif; ?>
+                        <div class="flex w-full mt-16  justify-around ">
+                            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') : ?>
+                                <a href="<?= URLROOT . '/wikis/archiver_wiki/' . $wiki->wiki_id; ?>" class="p-2  m-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> ARCHIVER</i></a>
+                            <?php endif; ?>
+
+                            <?php if (isset($_SESSION['user_id']) && isset($_SESSION['user_role'])  && $wiki->user_id == $_SESSION['user_id']) : ?>
+                                <a href="<?= URLROOT . '/wikis/delete_wiki/' . $wiki->wiki_id; ?>" class="p-2 m-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> DELETE</i></a>
+                                <a href="<?= URLROOT . '/wikis/update_wiki/' . $wiki->wiki_id; ?>" class="p-2 m-2 bg-green-400 rounded cursor-pointer "><i class="fa-regular fa-pen-to-square "> UPDATE</i></a>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                 </div>
-
-
-            </div>
-        </section>
-    <?php endforeach; ?>
-
-
-</main>
-
-
-<main id="search_result" class=" bg-gray-200 p-2 grid grid-cols-1 gap-5  ">
-</main>
-
-
-<div class="w-full h-fit   px-4 py-4 my-4 bg-white rounded-lg shadow-lg bg-gray-800">
-
-
-    <!-- Create wiki Card -->
-    <div class="my-1 px-1 w-full h-full  ">
-
-        <!-- Article -->
-        <article class="w-full h-full overflow-hidden rounded-lg shadow-xl">
-            <div class="group bg-gray-300  w-full h-full  py-16 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md ">
-                <a data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-gray-200 text-yellow-700 group-hover:text-gray-800 group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center" href="<?= URLROOT; ?>/wikis/formWiki">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                </a>
-                <a class="text-gray-600 group-hover:text-gray-800 group-hover:smooth-hover text-center" href="#"><button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button">
-                        Create wiki </button> </a>
-            </div>
-        </article>
-        <!-- END Article -->
-
+            <?php endforeach; ?>
+            <article class=" overflow-hidden rounded-lg shadow-xl">
+                <div class="group bg-gray-300    py-16 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md ">
+                    <a data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-gray-200 text-yellow-700 group-hover:text-gray-800 group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center" href="<?= URLROOT; ?>/wikis/formWiki">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </a>
+                    <a class="text-gray-600 group-hover:text-gray-800 group-hover:smooth-hover text-center" href="#"><button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button">
+                            Create wiki </button> </a>
+                </div>
+            </article>
+        </div>
     </div>
-    <!-- END Column -->
+</div>
+
+
+<div class="bg-gray-200 font-[sans-serif] p-4">
+    <div class="max-w-6xl max-md:max-w-lg mx-auto">
+
+        <div id="search_result" class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+        </div>
+    </div>
 
 </div>
+
+
+
+
+
+
+
 
 
 

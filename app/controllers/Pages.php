@@ -14,10 +14,12 @@
     }
     
     public function index(){
-     
+       $wiki= $this->wikis->get_wikis();
+    
       $data = [
-        'wikis'=>$this->wikis->get_wikis(),
-
+        'wikis'=>$wiki,
+       
+    
       ];
      
       $this->view('pages/index', $data);

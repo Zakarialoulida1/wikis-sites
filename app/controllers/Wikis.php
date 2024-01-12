@@ -117,40 +117,73 @@ class Wikis extends controller{
       }}
 
 
-      public function search_wiki(){
-        if (isset($_POST['input'])) {
-            $input = $_POST['input'];
-            
-            $wikis = $this->wikis->found_wiki($input);
-   
-            foreach($wikis as $wiki) {
-                echo '
-                    <section id="wikis" class="text-blueGray-700 bg-white ">
-                        <div class="container flex flex-col items-center px-5 py-16 mx-auto md:flex-row md:justify-around ">
-                            <div class="w-full lg:w-1/3 lg:max-w-lg md:w-1/2">
-                                <img class="object-cover object-center rounded-lg " alt="hero" src="' . URLROOT . '/img/' . $wiki->wiki_picture . '">
-                            </div>
-                            <div class="flex flex-col items-start mb-16 text-left  md:w-1/3  ">
-                                <h1 class="mb-8 text-2xl font-black tracking-tighter text-black md:text-5xl title-font">' . $wiki->title . '</h1>
-                                <p class="mb-8 text-base leading-relaxed text-left text-blueGray-600 max-h-[25vh] overflow-y-hidden ">' . $wiki->content . '</p>
-                                <div class="flex flex-col justify-center lg:flex-row">
-                                    <a href="' . URLROOT . '/wikis/read_more/' . $wiki->wiki_id . '" class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"> Show me </a>
-                                    <p class="mt-2 text-sm text-left text-blueGray-600 md:ml-6 md:mt-0"> It will take you to read more <br class="hidden lg:block">
-                                        <a href="' . URLROOT . '/wikis/read_more/' . $wiki->wiki_id . '" class="inline-flex items-center font-semibold text-blue-600 md:mb-2 lg:mb-0 hover:text-black " title="read more"> Read more about it » </a>
-                                    </p>
-                                </div>
-                                <div class="flex w-full mt-16  justify-around ">
-                                    <a href="' . URLROOT . '/wikis/archiver_wiki/' . $wiki->wiki_id . '" class="p-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> ARCHIVER</i></a>
-                                    <a href="' . URLROOT . '/wikis/update_wiki/' . $wiki->wiki_id . '" class="p-2 bg-green-400 rounded cursor-pointer "><i class="fa-regular fa-pen-to-square "> UPDATE</i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                ';
+      public function search_wiki()
+      {
+          if (isset($_POST['input'])) {
+              $input = $_POST['input'];
+      
+              $wikis = $this->wikis->found_wiki($input);
+      
+              foreach ($wikis as $wiki) {
+                  echo '<div class="flex max-lg:flex-col bg-white  cursor-pointer rounded-md overflow-hidden shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] hover:scale-105 transition-all duration-300">';
+                  echo '<img src="' . URLROOT . '/img/' . $wiki->wiki_picture . '" alt="Blog Post 2" class="lg:w-1/3 min-h-[250px] h-full object-cover" />';
+                  echo '<div class="p-6 lg:w-3/5">';
+                  echo '<h3 class="text-xl font-bold text-[#333]">' . $wiki->title . '</h3>';
+                  echo '<span class="text-sm block text-gray-400 mt-2">' . $wiki->created_at . '| by ' . $wiki->nom . ' ' . $wiki->prenom . '</span>';
+                  echo '<p class="text-sm max-h-[15vh] overflow-y-hidden mt-4">' . $wiki->content . '</p>';
+                  echo '<a href="' . URLROOT . '/wikis/read_more/' . $wiki->wiki_id . '" class="mt-4 inline-block text-blue-600 text-sm hover:underline">Read More</a>';
+      
+                  if (!empty($wiki->tag_names)) {
+                      echo '<div class="flex  flex-wrap gap-2 mt-4">';
+                      $tags = explode(",", $wiki->tag_names);
+                      foreach ($tags as $tag) {
+                          echo '<span class="bg-gray-300 p-2 rounded">' . $tag . '</span>';
+                      }
+                      echo '</div>';
+                  }
+      
+                  echo '<div class="flex w-full mt-16  justify-around ">';
+                  if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') {
+                      echo '<a href="' . URLROOT . '/wikis/archiver_wiki/' . $wiki->wiki_id . '" class="p-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> ARCHIVER</i></a>';
+                  }
+      
+                  if (isset($_SESSION['user_id']) && isset($_SESSION['user_role'])  && $wiki->user_id == $_SESSION['user_id']) {
+                      echo '<a href="' . URLROOT . '/wikis/delete_wiki/' . $wiki->wiki_id . '" class="p-2 bg-red-400  rounded cursor-pointer "><i class="fa-solid fa-box-archive "> DELETE</i></a>';
+                      echo '<a href="' . URLROOT . '/wikis/update_wiki/' . $wiki->wiki_id . '" class="p-2 bg-green-400 rounded cursor-pointer "><i class="fa-regular fa-pen-to-square "> UPDATE</i></a>';
+                  }
+      
+                  echo '</div></div></div>';
+              }
+          }
+      }
+      
+
+
+    public function stats() {
+
+      $totalWikis = $this->wikis->getTotalWikis();
+
     
-              
-            }
-        }
-    }
+      $UserWithMostWikis = $this->wikis->getUserWithMostWikis();
+     
+      $totalTags = $this->wikis->getTotalTags();
+      $totalAuthors = $this->wikis->getTotalAuthors();
+      $totalCategories = $this->wikis->getTotalCategories();
+      $mostUsedCategory = $this->wikis->getMostUsedCategory();
+     
+      $data = [
+          'totalWikis' => $totalWikis,
+          'UserWithMostWikis' => $UserWithMostWikis,
+          'totalTags' => $totalTags,
+          'totalAuthors' => $totalAuthors,
+          'totalCategories' => $totalCategories,
+          'mostUsedCategory' => $mostUsedCategory,
+      ];
+      // var_dump($data);
+      // die();
+
+      // Load the dashboard view with the retrieved data
+      $this->view('pages/stats',$data);
+  }
     
 }
